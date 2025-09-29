@@ -1,0 +1,21 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "RH": {
+      "operation": {
+        "store": {
+          "ttl": "7d"
+        }
+      },
+      "type": "number"
+    },
+    "Temp": {
+      "operation": {
+        "store": {
+          "ttl": "7d"
+        }
+      },
+      "type": "number"
+    }
+  }
+}

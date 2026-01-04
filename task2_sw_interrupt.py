@@ -1,5 +1,5 @@
 ###########################################
-# Asgn.2: SW with Interrupt
+# Task 2: SW with Interrupt
 # Ag Instrumentation & IoT Class
 # Dept. of Agricultural Engineering, KMITL 
 # Ref: https://docs.micropython.org/en/latest/library/machine.Pin.html
@@ -24,10 +24,10 @@ def sw_read(t):
         else:
             print('OFF')
 
-def _irq(pin):
+def sw_ISR(pin):
     tmr.init(mode=Timer.ONE_SHOT, period=debounce_ms, callback=sw_read)
 
-sw.irq(trigger=Pin.IRQ_FALLING | Pin.IRQ_RISING, handler=_irq)
+sw.irq(trigger = Pin.IRQ_FALLING | Pin.IRQ_RISING, handler = sw_ISR)
 
 while True:
     pass

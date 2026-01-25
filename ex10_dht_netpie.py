@@ -41,7 +41,7 @@ while True:
     data = {'Temp': sensor.temperature(),
             'RH': sensor.humidity()
             }
-    payload = ujson.dumps({'data':data})
+    payload = ujson.dumps({'data': data})
     print(payload)
     
     client.publish('@shadow/data/update', payload)

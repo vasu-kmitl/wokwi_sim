@@ -4,33 +4,35 @@ import dht
 from machine import Pin # Required for dht library
 import ujson
 import network
-from time import sleep_ms
+import time
 from umqtt.simple import MQTTClient
 
-SSID = 'Wokwi-GUEST'
-PASS = ''
-BROKER = 'mqtt.netpie.io'
-CLIENT_ID = ''  # Copied from your device
-TOKEN = ''      # Copied from your device
-SECRET = ''     # Leave Blank
+WiFi_SSID = 'Wokwi-GUEST'
+WiFi_PASS = ''
+
+MQTT_BROKER    = 'mqtt.netpie.io'
+MQTT_CLIENT_ID = 'DEVICE CLIENT ID' # Copied from your device
+MQTT_TOKEN     = 'DEVICE TOKEN'
+MQTT_SECRET    = '' 
 
 # Connect to WiFi
-wlan = network.WLAN(network.STA_IF)
+wlan = network.WLAN(network.STA_IF)   # Set WiFi Mode to Station
 wlan.active(True)
-wlan.connect(SSID,PASS) # Start Connecting
+
+wlan.connect(WiFi_SSID,WiFi_PASS)  # Start Connecting
 print('WiFi ', end='')
 while not wlan.isconnected():
-    print('.', end='')
-    sleep_ms(500)
-    print(' connected to', wlan.ifconfig()[0])
+  print('.', end='')
+  time.sleep(0.5)
+print(' connected to', wlan.ifconfig()[0]) # Print connected IP Address
 
 # Connect to MQTT broker
-client = MQTTClient(CLIENT_ID,BROKER,user=TOKEN,password=SECRET)
+client = MQTTClient(MQTT_CLIENT_ID, MQTT_BROKER, user=MQTT_TOKEN, password=MQTT_SECRET)
 try:
-    client.connect()
-    print('MQTT Connected')
+  client.connect()
+  print('MQTT Connected')
 except:
-    print('MQTT Error')
+  print('MQTT Error')
 
 sensor = dht.DHT22(Pin(15))
 
@@ -41,5 +43,6 @@ while True:
             }
     payload = ujson.dumps({'data':data})
     print(payload)
+    
     client.publish('@shadow/data/update', payload)
-    sleep_ms(1500)
+    time.sleep(1)

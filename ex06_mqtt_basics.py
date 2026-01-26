@@ -39,17 +39,7 @@ def on_message(topic,msg):
 
 client.set_callback(on_message)
 client.subscribe('@msg/#')
-
-i = 0
-while True:
-    client.check_msg()
-    client.publish('@msg/sensor', str(i)) 
-    i = i+1
-    time.sleep(3)
-
-
-client.set_callback(on_message)
-client.subscribe('@msg/#')
+subscribe('@msg/#')
 
 i = 0
 while True:

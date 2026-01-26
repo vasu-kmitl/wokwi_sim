@@ -45,4 +45,4 @@ while True:
     client.check_msg()
     client.publish('@msg/sensor', str(i))
     i = i+1
-    sleep_ms(3000)
+    time.sleep(3)
